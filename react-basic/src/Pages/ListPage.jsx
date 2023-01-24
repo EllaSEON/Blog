@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Card from "../components/Card";
 
 const ListPage = () => {
   const [posts, setPosts] = useState([]);
@@ -17,9 +18,10 @@ const ListPage = () => {
       <h1>Blogs</h1>
       {posts.map((post) => {
         return (
-          <div className="card mb-3" key={post.id}>
-            <div className="card-body">{post.title}</div>
-          </div>
+          <Card key={post.id} title={post.title} />
+          // <div className="card mb-3" key={post.id}>
+          //   <div className="card-body">{post.title}</div>
+          // </div>
         );
       })}
     </div>
