@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Card from "../components/Card";
 import { Link, useNavigate } from "react-router-dom";
+import Card from "../components/Card";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ListPage = () => {
   const navigate = useNavigate();
@@ -34,13 +35,7 @@ const ListPage = () => {
   // 로딩스피너
   const renderBlogList = () => {
     if (loading) {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      );
+      return <LoadingSpinner />;
     }
     if (posts.length === 0) {
       return <div>No blog posts found</div>;
