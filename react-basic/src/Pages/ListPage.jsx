@@ -6,11 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 const ListPage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // 게시물 보여주기
   const getPosts = () => {
     axios.get("http://localhost:3001/posts").then((res) => {
       setPosts(res.data);
+      setLoading(false); // 응답이 오면 로딩페이지를 false로 바꿔서 post 보여주기
     });
   };
 
@@ -20,7 +22,7 @@ const ListPage = () => {
 
   // 삭제 버튼
   const deleteBlog = (e, id) => {
-    e.stopPropagation();
+    e.stopPropagation(); // 이벤트 버블링 막기
     axios.delete(`http://localhost:3001/posts/${id}`).then(() => {
       setPosts((prevPosts) => {
         return prevPosts.filter((post) => post.id !== id);
@@ -38,22 +40,34 @@ const ListPage = () => {
           </Link>
         </div>
       </div>
-      {posts.map((post) => {
-        return (
-          <Card
-            key={post.id}
-            title={post.title}
-            onClick={() => navigate("/blogs/edit")}
-          >
-            <div
-              className="btn btn-danger btn-sm"
-              onClick={(e) => deleteBlog(e, post.id)}
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : posts.length > 0 ? (
+        posts.map((post) => {
+          return (
+            <Card
+              key={post.id}
+              title={post.title}
+              onClick={() => navigate("/blogs/edit")}
             >
-              Delete
-            </div>
-          </Card>
-        );
-      })}
+              <div>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={(e) => deleteBlog(e, post.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </Card>
+          );
+        })
+      ) : (
+        "No blog posts found"
+      )}
     </div>
   );
 };
