@@ -30,6 +30,41 @@ const ListPage = () => {
       });
     });
   };
+
+  // 로딩스피너
+  const renderBlogList = () => {
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      );
+    }
+    if (posts.length === 0) {
+      return <div>No blog posts found</div>;
+    }
+
+    return posts.map((post) => {
+      return (
+        <Card
+          key={post.id}
+          title={post.title}
+          onClick={() => navigate("/blogs/edit")}
+        >
+          <div>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={(e) => deleteBlog(e, post.id)}
+            >
+              Delete
+            </button>
+          </div>
+        </Card>
+      );
+    });
+  };
   return (
     <div>
       <div className="d-flex justify-content-between">
@@ -40,34 +75,7 @@ const ListPage = () => {
           </Link>
         </div>
       </div>
-      {loading ? (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      ) : posts.length > 0 ? (
-        posts.map((post) => {
-          return (
-            <Card
-              key={post.id}
-              title={post.title}
-              onClick={() => navigate("/blogs/edit")}
-            >
-              <div>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={(e) => deleteBlog(e, post.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </Card>
-          );
-        })
-      ) : (
-        "No blog posts found"
-      )}
+      {renderBlogList()}
     </div>
   );
 };
