@@ -20,6 +20,11 @@ const ShowPage = () => {
     getPost(id);
   }, []);
 
+  // createdAt을 알아볼 수 있는 시간으로 바꾸기
+  const printDate = (timestamp) => {
+    return new Date(timestamp).toLocaleString();
+  };
+
   //로딩 스피너
   if (loading) {
     return <LoadingSpinner />;
@@ -27,6 +32,10 @@ const ShowPage = () => {
     return (
       <div>
         <h1>{post.title}</h1>
+        <small class="text-muted">
+          Created At : {printDate(post.createdAt)}
+        </small>
+        <hr />
         <p>{post.body}</p>
       </div>
     );

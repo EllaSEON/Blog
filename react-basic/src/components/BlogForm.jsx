@@ -12,6 +12,7 @@ const BlogForm = () => {
       .post("http://localhost:3001/posts", {
         title: title,
         body: body,
+        createdAt: Date.now(), // 현재시간 가져오기
       })
       .then(() => {
         navigate("/blogs/");
