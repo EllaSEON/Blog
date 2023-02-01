@@ -9,15 +9,26 @@ const BlogForm = ({ editing }) => {
   const { id } = useParams();
 
   const [title, setTitle] = useState("");
+  const [originalTitle, setOriginalTitle] = useState("");
   const [body, setBody] = useState("");
+  const [originalBody, setOriginalBody] = useState("");
 
   // 게시글 수정할 때 기존 데이터 가져오기
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
-      setTitle(res.data.title);
-      setBody(res.data.body);
-    });
+    if (editing) {
+      axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
+        setTitle(res.data.title);
+        setOriginalTitle(res.data.title);
+        setBody(res.data.body);
+        setOriginalBody(res.data.body);
+      });
+    }
   }, [id]);
+
+  // 수정된 내용이 없을 때 버튼 비활성화
+  const isEdited = () => {
+    return title !== originalTitle || body !== originalBody; // 하나만 true 여도 true
+  };
 
   // editing이 true 일 경우 게시글 수정, false일때 게시글 업로드
   const onSubmit = () => {
@@ -28,7 +39,7 @@ const BlogForm = ({ editing }) => {
           body: body,
         })
         .then((res) => {
-          console.log(res);
+          navigate(`/blogs/${id}`);
         });
     } else {
       axios
@@ -69,7 +80,11 @@ const BlogForm = ({ editing }) => {
           rows="10"
         />
       </div>
-      <button className="btn btn-primary" onClick={onSubmit}>
+      <button
+        className="btn btn-primary"
+        onClick={onSubmit}
+        disabled={editing && !isEdited()}
+      >
         {editing ? "Edit" : "Post"}
       </button>
     </div>
