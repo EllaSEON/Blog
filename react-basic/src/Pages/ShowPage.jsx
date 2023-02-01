@@ -17,7 +17,6 @@ const ShowPage = () => {
 
   // id 가 변경 될때마다 의존성 배열 실행
   useEffect(() => {
-    console.log("hello");
     getPost(id);
   }, []);
 
