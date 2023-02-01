@@ -11,25 +11,37 @@ const BlogForm = ({ editing }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  // 수정할 때 기존 데이터 가져오기
+  // 게시글 수정할 때 기존 데이터 가져오기
   useEffect(() => {
     axios.get(`http://localhost:3001/posts/${id}`).then((res) => {
-      console.log(res);
       setTitle(res.data.title);
       setBody(res.data.body);
     });
   }, [id]);
 
+  // editing이 true 일 경우 게시글 수정, false일때 게시글 업로드
   const onSubmit = () => {
-    axios
-      .post("http://localhost:3001/posts", {
-        title: title,
-        body: body,
-        createdAt: Date.now(), // 현재시간 가져오기
-      })
-      .then(() => {
-        navigate("/blogs/");
-      });
+    if (editing) {
+      axios
+        .patch(`http://localhost:3001/posts/${id}`, {
+          title: title,
+          body: body,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    } else {
+      axios
+        .post(`http://localhost:3001/posts`, {
+          title: title,
+          body: body,
+          createdAt: Date.now(), // 현재시간 가져오기
+        })
+        .then((res) => {
+          console.log(res);
+          navigate("/blogs/");
+        });
+    }
   };
   return (
     <div>
@@ -69,7 +81,7 @@ BlogForm.propTypes = {
 };
 
 BlogForm.defaultProps = {
-  editing: false,
+  editing: false, // false이면 create true 이면 edit
 };
 
 export default BlogForm;

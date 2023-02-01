@@ -1,3 +1,4 @@
+// 블로그 리스트 페이지 카드 컴포넌트
 import PropTypes from "prop-types";
 
 const Card = ({ title, onClick, children }) => {
