@@ -4,19 +4,15 @@
       "title": "수정 테스트",
       "body": "시간 조회",
       "createdAt": 1675213388886,
-      "id": 3
+      "id": 3,
+      "publish": true
     },
     {
-      "title": "react.js 정",
-      "body": "리액트 수정",
-      "createdAt": 1675225286069,
+      "title": "redux",
+      "body": "redux",
+      "publish": false,
+      "createdAt": 1675230398573,
       "id": 4
-    },
-    {
-      "title": "왜 에러",
-      "body": "왜에러",
-      "createdAt": 1675226404189,
-      "id": 5
     }
   ]
 }

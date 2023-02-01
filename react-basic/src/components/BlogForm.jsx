@@ -12,6 +12,8 @@ const BlogForm = ({ editing }) => {
   const [originalTitle, setOriginalTitle] = useState("");
   const [body, setBody] = useState("");
   const [originalBody, setOriginalBody] = useState("");
+  const [publish, setPublish] = useState(false);
+  const [originalPublish, setOriginalPublish] = useState(false);
 
   // 게시글 수정할 때 기존 데이터 가져오기
   useEffect(() => {
@@ -21,13 +23,19 @@ const BlogForm = ({ editing }) => {
         setOriginalTitle(res.data.title);
         setBody(res.data.body);
         setOriginalBody(res.data.body);
+        setPublish(res.data.publish);
+        setOriginalPublish(res.data.publish);
       });
     }
   }, [id]);
 
   // 수정된 내용이 없을 때 버튼 비활성화
   const isEdited = () => {
-    return title !== originalTitle || body !== originalBody; // 하나만 true 여도 true
+    return (
+      title !== originalTitle ||
+      body !== originalBody ||
+      publish !== originalPublish
+    ); // 하나만 true 여도 true
   };
 
   // editing이 true 일 경우 게시글 수정, false일때 게시글 업로드
@@ -37,6 +45,7 @@ const BlogForm = ({ editing }) => {
         .patch(`http://localhost:3001/posts/${id}`, {
           title: title,
           body: body,
+          publish: publish,
         })
         .then((res) => {
           navigate(`/blogs/${id}`);
@@ -46,6 +55,7 @@ const BlogForm = ({ editing }) => {
         .post(`http://localhost:3001/posts`, {
           title: title,
           body: body,
+          publish: publish,
           createdAt: Date.now(), // 현재시간 가져오기
         })
         .then((res) => {
@@ -62,6 +72,11 @@ const BlogForm = ({ editing }) => {
     } else {
       navigate(`/blogs`);
     }
+  };
+
+  const onChangePublish = (e) => {
+    // console.log(e.target.checked);
+    setPublish(e.target.checked);
   };
   return (
     <div>
@@ -88,6 +103,15 @@ const BlogForm = ({ editing }) => {
           }}
           rows="10"
         />
+      </div>
+      <div className="form-check mb-3">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          checked={publish}
+          onChange={onChangePublish}
+        />
+        <label className="form-check-label">Publish</label>
       </div>
       <button
         className="btn btn-primary"
