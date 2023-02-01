@@ -54,6 +54,15 @@ const BlogForm = ({ editing }) => {
         });
     }
   };
+
+  // 취소 버튼 누를 시 페이지 뒤로가기
+  const goBack = () => {
+    if (editing) {
+      navigate(`/blogs/${id}`);
+    } else {
+      navigate(`/blogs`);
+    }
+  };
   return (
     <div>
       <h1>{editing ? "Edit" : "Create"} a blog post</h1>
@@ -86,6 +95,9 @@ const BlogForm = ({ editing }) => {
         disabled={editing && !isEdited()}
       >
         {editing ? "Edit" : "Post"}
+      </button>
+      <button className="btn btn-danger ms-2" onClick={goBack}>
+        Cancel
       </button>
     </div>
   );
