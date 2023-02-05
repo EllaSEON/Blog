@@ -1,13 +1,6 @@
 {
   "posts": [
     {
-      "title": "수정 테스트",
-      "body": "시간 조회",
-      "createdAt": 1675213388886,
-      "id": 3,
-      "publish": true
-    },
-    {
       "title": "redux",
       "body": "redux",
       "publish": false,
@@ -20,6 +13,27 @@
       "publish": false,
       "createdAt": 1675408983665,
       "id": 5
+    },
+    {
+      "title": "recoil",
+      "body": "reciol",
+      "publish": true,
+      "createdAt": 1675585476689,
+      "id": 6
+    },
+    {
+      "title": "새로운 게시글",
+      "body": "새로운 글",
+      "publish": true,
+      "createdAt": 1675585514552,
+      "id": 7
+    },
+    {
+      "title": "테스트",
+      "body": "테스트",
+      "publish": true,
+      "createdAt": 1675585568938,
+      "id": 8
     }
   ]
 }

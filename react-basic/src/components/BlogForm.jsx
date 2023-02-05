@@ -60,7 +60,7 @@ const BlogForm = ({ editing }) => {
         })
         .then((res) => {
           console.log(res);
-          navigate("/blogs/");
+          navigate("/admin");
         });
     }
   };
