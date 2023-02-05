@@ -7,7 +7,18 @@ const NavBar = () => {
         <Link className="navbar-brand" to="/">
           Home
         </Link>
-        <ul className="navbar-nav">
+        <ul style={{ flexDirection: "row" }} className="navbar-nav">
+          <li className="nav-item me-2">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link inactive"
+              }
+              aria-current="page"
+              to="/admin"
+            >
+              Admin
+            </NavLink>
+          </li>
           <li className="nav-item">
             <NavLink
               className={({ isActive }) =>

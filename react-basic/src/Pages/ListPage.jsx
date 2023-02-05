@@ -6,7 +6,7 @@ const ListPage = () => {
       <div className="d-flex justify-content-between">
         <h1>Blogs</h1>
       </div>
-      <BlogList />
+      <BlogList /> 
     </div>
   );
 };

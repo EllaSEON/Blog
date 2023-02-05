@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import Card from "../components/Card";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-const BlogList = () => {
+const BlogList = ({ isAdmin }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,7 @@ const BlogList = () => {
   }
   return posts
     .filter((post) => {
-      return post.publish;
+      return isAdmin || post.publish; //관리자 페이지 일경우에만 보이고 아닐경우 post가 공개일경우만 보이게함
     })
     .map((post) => {
       return (
@@ -50,17 +51,26 @@ const BlogList = () => {
           title={post.title}
           onClick={() => navigate(`/blogs/${post.id}`)}
         >
-          <div>
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={(e) => deleteBlog(e, post.id)}
-            >
-              Delete
-            </button>
-          </div>
+          {isAdmin ? (
+            <div>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={(e) => deleteBlog(e, post.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ) : null}
         </Card>
       );
     });
 };
 
+BlogList.propTypes = {
+  isAdmin: PropTypes.bool,
+};
+
+BlogList.defaultProps = {
+  isAdmin: false, // list 페이지에서는 기본이 false라서 아무것도 안넘겨줌
+};
 export default BlogList;
