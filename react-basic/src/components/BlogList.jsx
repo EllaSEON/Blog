@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Card from "../components/Card";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Pagination from "./Pagination";
 
 const BlogList = ({ isAdmin }) => {
   const navigate = useNavigate();
@@ -40,30 +41,39 @@ const BlogList = ({ isAdmin }) => {
   if (posts.length === 0) {
     return <div>No blog posts found</div>;
   }
-  return posts
-    .filter((post) => {
-      return isAdmin || post.publish; //관리자 페이지 일경우에만 보이고 아닐경우 post가 공개일경우만 보이게함
-    })
-    .map((post) => {
-      return (
-        <Card
-          key={post.id}
-          title={post.title}
-          onClick={() => navigate(`/blogs/${post.id}`)}
-        >
-          {isAdmin ? (
-            <div>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={(e) => deleteBlog(e, post.id)}
-              >
-                Delete
-              </button>
-            </div>
-          ) : null}
-        </Card>
-      );
-    });
+
+  const renderBlogList = () => {
+    return posts
+      .filter((post) => {
+        return isAdmin || post.publish; //관리자 페이지 일경우에만 보이고 아닐경우 post가 공개일경우만 보이게함
+      })
+      .map((post) => {
+        return (
+          <Card
+            key={post.id}
+            title={post.title}
+            onClick={() => navigate(`/blogs/${post.id}`)}
+          >
+            {isAdmin ? (
+              <div>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={(e) => deleteBlog(e, post.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            ) : null}
+          </Card>
+        );
+      });
+  };
+  return (
+    <>
+      {renderBlogList()}
+      <Pagination />
+    </>
+  );
 };
 
 BlogList.propTypes = {
